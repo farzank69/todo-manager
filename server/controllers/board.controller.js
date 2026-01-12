@@ -1,20 +1,20 @@
-const Board = require("../models/board");
-const Todo = require("../models/todo");
+const Board = require('../models/Board');
+const Todo = require('../models/Todo');
 
 const getAllBoards = async (req, res) => {
   try {
     const boards = await Board.find({ userId: req.user._id })
       .sort({ createdAt: -1 })
-      .select("-__v");
+      .select('-__v');
 
     res.json({
       success: true,
-      data: boards,
+      data: boards
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to fetch boards",
+      message: 'Failed to fetch boards'
     });
   }
 };
@@ -23,36 +23,38 @@ const getBoardById = async (req, res) => {
   try {
     const board = await Board.findOne({
       _id: req.params.id,
-      userId: req.user._id,
-    }).select("-__v");
+      userId: req.user._id
+    }).select('-__v');
 
     if (!board) {
       return res.status(404).json({
         success: false,
-        message: "Board not found",
+        message: 'Board not found'
       });
     }
 
     res.json({
       success: true,
-      data: board,
+      data: board
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to fetch board",
+      message: 'Failed to fetch board'
     });
   }
 };
 
 const createBoard = async (req, res) => {
   try {
+    console.log('Creating board with data:', req.body);
+    console.log('User ID:', req.user._id); 
     const { title, description, color } = req.body;
 
-    if (!title || title.trim() === "") {
+    if (!title || title.trim() === '') {
       return res.status(400).json({
         success: false,
-        message: "Board title is required",
+        message: 'Board title is required'
       });
     }
 
@@ -60,17 +62,23 @@ const createBoard = async (req, res) => {
       title,
       description,
       color,
-      userId: req.user._id,
+      userId: req.user._id
     });
+    console.log('Board created successfully:', board);
 
     res.status(201).json({
       success: true,
-      data: board,
+      data: board
     });
   } catch (error) {
+    console.error('Get boards error:', error);
+    console.error('Error details:', error.message);
+    console.error('Error stack:', error.stack);
+
     res.status(500).json({
       success: false,
-      message: "Failed to create board",
+      message: 'Failed to create board',
+      error: error.message,
     });
   }
 };
@@ -83,23 +91,23 @@ const updateBoard = async (req, res) => {
       { _id: req.params.id, userId: req.user._id },
       { title, description, color },
       { new: true, runValidators: true }
-    ).select("-__v");
+    ).select('-__v');
 
     if (!board) {
       return res.status(404).json({
         success: false,
-        message: "Board not found",
+        message: 'Board not found'
       });
     }
 
     res.json({
       success: true,
-      data: board,
+      data: board
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to update board",
+      message: 'Failed to update board'
     });
   }
 };
@@ -108,13 +116,13 @@ const deleteBoard = async (req, res) => {
   try {
     const board = await Board.findOneAndDelete({
       _id: req.params.id,
-      userId: req.user._id,
+      userId: req.user._id
     });
 
     if (!board) {
       return res.status(404).json({
         success: false,
-        message: "Board not found",
+        message: 'Board not found'
       });
     }
 
@@ -122,12 +130,12 @@ const deleteBoard = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Board deleted successfully",
+      message: 'Board deleted successfully'
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to delete board",
+      message: 'Failed to delete board'
     });
   }
 };
@@ -137,5 +145,5 @@ module.exports = {
   getBoardById,
   createBoard,
   updateBoard,
-  deleteBoard,
+  deleteBoard
 };

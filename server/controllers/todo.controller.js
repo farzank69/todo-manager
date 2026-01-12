@@ -1,5 +1,5 @@
-const Todo = require("../models/todo");
-const Board = require("../models/board");
+const Todo = require('../models/Todo');
+const Board = require('../models/Board');
 
 const getTodosByBoard = async (req, res) => {
   try {
@@ -7,20 +7,29 @@ const getTodosByBoard = async (req, res) => {
 
     const board = await Board.findOne({
       _id: boardId,
-      userId: req.user._id,
+      userId: req.user._id
     });
 
     if (!board) {
-      return res.status(404).json({ success: false, message: "Board not found"});
+      return res.status(404).json({
+        success: false,
+        message: 'Board not found'
+      });
     }
 
     const todos = await Todo.find({ boardId })
       .sort({ createdAt: -1 })
-      .select("-__v");
+      .select('-__v');
 
-    res.json({ success: true, data: todos});
+    res.json({
+      success: true,
+      data: todos
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to fetch todos" });
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch todos'
+    });
   }
 };
 
@@ -28,16 +37,25 @@ const getTodoById = async (req, res) => {
   try {
     const todo = await Todo.findOne({
       _id: req.params.id,
-      userId: req.user._id,
-    }).select("-__v");
+      userId: req.user._id
+    }).select('-__v');
 
     if (!todo) {
-      return res.status(404).json({ success: false, message: "Todo not found" });
+      return res.status(404).json({
+        success: false,
+        message: 'Todo not found'
+      });
     }
 
-    res.json({ success: true, data: todo });
+    res.json({
+      success: true,
+      data: todo
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to fetch todo" });
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch todo'
+    });
   }
 };
 
@@ -45,21 +63,30 @@ const createTodo = async (req, res) => {
   try {
     const { title, description, boardId, status, priority, dueDate } = req.body;
 
-    if (!title || title.trim() === "") {
-      return res.status(400).json({ success: false, message: "Todo title is required" });
+    if (!title || title.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: 'Todo title is required'
+      });
     }
 
     if (!boardId) {
-      return res.status(400).json({ success: false, message: "Board ID is required" });
+      return res.status(400).json({
+        success: false,
+        message: 'Board ID is required'
+      });
     }
 
     const board = await Board.findOne({
       _id: boardId,
-      userId: req.user._id,
+      userId: req.user._id
     });
 
     if (!board) {
-      return res.status(404).json({ success: false, message: "Board not found" });
+      return res.status(404).json({
+        success: false,
+        message: 'Board not found'
+      });
     }
 
     const todo = await Todo.create({
@@ -69,12 +96,18 @@ const createTodo = async (req, res) => {
       userId: req.user._id,
       status,
       priority,
-      dueDate,
+      dueDate
     });
 
-    res.status(201).json({ success: true, data: todo });
+    res.status(201).json({
+      success: true,
+      data: todo
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to create todo" });
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create todo'
+    });
   }
 };
 
@@ -86,15 +119,24 @@ const updateTodo = async (req, res) => {
       { _id: req.params.id, userId: req.user._id },
       { title, description, status, priority, dueDate },
       { new: true, runValidators: true }
-    ).select("-__v");
+    ).select('-__v');
 
     if (!todo) {
-      return res.status(404).json({ success: false, message: "Todo not found" });
+      return res.status(404).json({
+        success: false,
+        message: 'Todo not found'
+      });
     }
 
-    res.json({ success: true, data: todo });
+    res.json({
+      success: true,
+      data: todo
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to update todo"});
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update todo'
+    });
   }
 };
 
@@ -102,15 +144,25 @@ const deleteTodo = async (req, res) => {
   try {
     const todo = await Todo.findOneAndDelete({
       _id: req.params.id,
-      userId: req.user._id,
+      userId: req.user._id
     });
 
     if (!todo) {
-      return res.status(404).json({ success: false, message: "Todo not found" });
+      return res.status(404).json({
+        success: false,
+        message: 'Todo not found'
+      });
     }
-    res.json({ success: true, message: "Todo deleted successfully" });
+
+    res.json({
+      success: true,
+      message: 'Todo deleted successfully'
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to delete todo"});
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete todo'
+    });
   }
 };
 
@@ -119,5 +171,5 @@ module.exports = {
   getTodoById,
   createTodo,
   updateTodo,
-  deleteTodo,
+  deleteTodo
 };

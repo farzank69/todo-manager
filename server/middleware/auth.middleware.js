@@ -1,5 +1,5 @@
 const admin = require('../config/firebase');
-const User = require('../models/user');
+const User = require('../models/User');
 
 const authenticate = async (req, res, next) => {
   try {

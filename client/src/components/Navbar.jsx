@@ -19,7 +19,7 @@ const Navbar = () => {
             <h1 className="text-2xl font-bold text-white">Todo Manager</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <span className="text-white">{currentUser?.email}</span>
+            <span className="text-white">{currentUser?.displayName}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
