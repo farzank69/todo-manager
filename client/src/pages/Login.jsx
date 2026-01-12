@@ -29,9 +29,10 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-500 to-purple-600">
       <div className="max-w-md w-full mx-4">
         <div className="bg-white rounded-lg shadow-2xl p-8">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-            Login to Todo Manager
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-2">
+            Welcome Back
           </h2>
+          <p className="text-sm text-center text-gray-500 mb-4">Please login to your account</p>
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
               {error}
@@ -47,6 +48,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder='Email address'
                 required
               />
             </div>
@@ -59,6 +61,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder='Password'
                 required
               />
             </div>

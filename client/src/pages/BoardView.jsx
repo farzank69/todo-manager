@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PencilLine, ClipboardCheck, CircleChevronLeft } from 'lucide-react'
 import Navbar from '../components/Navbar';
 import TodoCard from '../components/TodoCard';
 import TodoModal from '../components/TodoModal';
@@ -114,9 +115,7 @@ const BoardView = () => {
             onClick={() => navigate('/dashboard')}
             className="text-blue-500 hover:text-blue-700 mb-4 flex items-center"
           >
-            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <CircleChevronLeft className='w-4 h-4 mr-1'/>
             Back to Boards
           </button>
           <div
@@ -194,20 +193,16 @@ const BoardView = () => {
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition flex items-center"
+            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition flex items-center cursor-pointer"
           >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
+            <PencilLine className='w-5 h-5 mr-2'/>
             Add Todo
           </button>
         </div>
 
         {filteredTodos.length === 0 ? (
           <div className="text-center py-16">
-            <svg className="w-24 h-24 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-            </svg>
+            <ClipboardCheck className="w-24 h-24 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl text-gray-600 mb-2">No tasks yet</h3>
             <p className="text-gray-500">Create your first task to get started</p>
           </div>

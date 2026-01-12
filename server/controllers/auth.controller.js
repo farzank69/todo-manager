@@ -6,7 +6,12 @@ const getCurrentUser = async (req, res) => {
     
     res.json({
       success: true,
-      data: user
+      data: {
+        email: user.email,
+        displayName: user.displayName,
+        createdAt: user.createdAt,
+        lastLogin: user.lastLogin
+      }
     });
   } catch (error) {
     res.status(500).json({

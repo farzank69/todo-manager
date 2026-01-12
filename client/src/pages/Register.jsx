@@ -5,10 +5,10 @@ import { useAuth } from '../context/AuthContext';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState(''); 
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -27,11 +27,8 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await register(email, password);
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/login');
-      }, 3000);
+      await register(email, password, displayName);
+      navigate('/dashboard');
     } catch (error) {
       setError(error.message || 'Failed to create account');
     } finally {
@@ -39,30 +36,36 @@ const Register = () => {
     }
   };
 
-  if (success) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-blue-600">
-        <div className="max-w-md w-full mx-4">
-          <div className="bg-white rounded-lg shadow-2xl p-8 text-center">
-            <div className="mb-4">
-              <svg className="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Registration Successful!</h2>
-            <p className="text-gray-600 mb-4">
-              A verification email has been sent to your email address. Please verify your email before logging in.
-            </p>
-            <p className="text-sm text-gray-500">Redirecting to login...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-500 to-purple-600">
-      <div className="max-w-md w-full mx-4">
+    <div className="min-h-screen flex items-center justify-center relative bg-linear-to-br from-blue-500 to-purple-600 overflow-hidden">
+      
+      {/* Animated Background Circles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"
+          style={{ top: '-12rem', left: '-12rem' }}
+        ></div>
+        <div 
+          className="absolute w-96 h-96 bg-purple-300/20 rounded-full blur-3xl animate-pulse"
+          style={{ 
+            top: '50%', 
+            left: '50%', 
+            transform: 'translate(-50%, -50%)',
+            animationDelay: '1s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-96 h-96 bg-blue-300/20 rounded-full blur-3xl animate-pulse"
+          style={{ 
+            bottom: '-12rem', 
+            right: '-12rem',
+            animationDelay: '2s'
+          }}
+        ></div>
+      </div>
+
+      {/* Form Container */}
+      <div className="max-w-md w-full mx-4 relative z-10">
         <div className="bg-white rounded-lg shadow-2xl p-8">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
             Create Account
@@ -75,6 +78,19 @@ const Register = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-semibold mb-2">
+                Username
+              </label>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-semibold mb-2">
                 Email Address
               </label>
               <input
@@ -82,6 +98,7 @@ const Register = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="john@example.com"
                 required
               />
             </div>
@@ -94,6 +111,7 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
                 required
               />
             </div>
@@ -106,6 +124,7 @@ const Register = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
                 required
               />
             </div>
@@ -125,7 +144,7 @@ const Register = () => {
           </p>
         </div>
       </div>
-    </div>
+    </div>  
   );
 };
 
