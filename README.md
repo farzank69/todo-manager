@@ -33,7 +33,7 @@ A production-grade task management application built with React.js, Node.js, Exp
 
 ```
 Todo Manager/
-├── backend/
+├── server/
 │   ├── config/
 │   │   ├── database.js
 │   │   └── firebase.js
@@ -55,7 +55,7 @@ Todo Manager/
 │   ├── package.json
 │   └── server.js
 │
-└── frontend/
+└── client/
     ├── src/
     │   ├── components/
     │   │   ├── Navbar.jsx
